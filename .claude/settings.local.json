@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git:*)",
+      "Bash(npm install:*)",
+      "Bash(npx tsc:*)",
+      "WebSearch",
+      "WebFetch(domain:datasets-server.huggingface.co)",
+      "WebFetch(domain:github.com)",
+      "Bash(python3:*)"
+    ]
+  }
+}
