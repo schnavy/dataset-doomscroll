@@ -34,20 +34,21 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     if (datasetConfig.type === 'pexels') {
       response = await fetchPexelsBatch(seed, cursor, HF_BATCH_SIZE);
     } else {
-      // HF-backed dataset (webvid + future hf datasets)
-      const { config, split, size } = await resolveSplitInfo();
+      // HF-backed dataset
+      const hfPath = datasetConfig.hfPath ?? DATASET;
+      const { config, split, size } = await resolveSplitInfo(hfPath);
       const rowIndices = getBatch(seed, cursor, HF_BATCH_SIZE, size);
-      const rows = await fetchRowsByIndices(rowIndices, config, split);
+      const rows = await fetchRowsByIndices(rowIndices, config, split, hfPath);
 
       const items: FeedItem[] = rows.flatMap(({ rowIndex, row }) => {
-        const video_url = pickUrlField(row);
+        const video_url = pickUrlField(row, datasetConfig.urlField);
         if (!video_url) return [];
         return [
           {
             id: `${config}:${split}:${rowIndex}`,
             video_url,
             duration: typeof row.duration === 'number' ? row.duration : null,
-            dataset_name: DATASET,
+            dataset_name: hfPath,
             caption:
               typeof row.caption === 'string'
                 ? row.caption

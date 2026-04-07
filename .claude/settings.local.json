@@ -7,7 +7,9 @@
       "WebSearch",
       "WebFetch(domain:datasets-server.huggingface.co)",
       "WebFetch(domain:github.com)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s \"https://datasets-server.huggingface.co/rows?dataset=TempoFunk/hdvila-100M&config=default&split=train&offset=0&length=3\")"
     ]
   }
 }
